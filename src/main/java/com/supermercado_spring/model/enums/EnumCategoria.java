@@ -32,13 +32,13 @@ public enum EnumCategoria {
     LIBRERIA("Libreria"),
     ELECTRODOMESTICOS("Electrodomestico");
 
-    private String descripcion;
+    private String nombreCategoria;
 
-    private EnumCategoria(String descripcion) {
-        this.descripcion = descripcion;
+    private EnumCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
 
-    public String getDescription() {
-        return descripcion;
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
 }

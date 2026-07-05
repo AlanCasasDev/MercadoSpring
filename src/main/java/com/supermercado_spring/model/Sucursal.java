@@ -19,12 +19,12 @@ public class Sucursal {
     @Column(name ="id_sucursal")
     private Long idSucursal;
 
-    @NotBlank(message = "El nombre de la sucursal no puede estar vacio ni en blanco")
-    @Column(name ="nombre_sucursal", nullable = false, length = 25)
+    //@NotBlank(message = "El nombre de la sucursal no puede estar vacio ni en blanco")
+    @Column(name ="nombre_sucursal", nullable = false, unique = true, length = 25)
     private String nombreSucursal;
 
-    @NotBlank(message = "La direccion de la sucursal no puede estar vacio ni en blanco")
-    @Column(name ="direccion_sucursal", nullable = false, length = 50)
+    //@NotBlank(message = "La direccion de la sucursal no puede estar vacio ni en blanco")
+    @Column(name ="direccion_sucursal", unique = true, nullable = false, length = 50)
     private String direccionSucursal;
 
 }
