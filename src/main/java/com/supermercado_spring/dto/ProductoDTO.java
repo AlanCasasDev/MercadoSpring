@@ -22,5 +22,5 @@ public class ProductoDTO {
     private BigDecimal precioProducto;
 
     @PositiveOrZero(message = "La cantidad de productos solo puede ser 0 o mayor a 0")
-    private Long cantidadProducto;
+    private Long cantidadProducto; //Stock
 }

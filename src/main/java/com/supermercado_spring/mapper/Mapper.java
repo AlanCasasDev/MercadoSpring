@@ -9,8 +9,6 @@ import com.supermercado_spring.model.Producto;
 import com.supermercado_spring.model.Sucursal;
 import com.supermercado_spring.model.Venta;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Mapper {
 
@@ -58,7 +56,7 @@ public class Mapper {
     }
 
     //Map de Sucursal a SucursalDTO
-    public static SucursalDTO toSucursalDTO(Sucursal s) {
+    public static SucursalDTO wtoSucursalDTO(Sucursal s) {
         if (s == null) {
             return null;
         }

@@ -1,112 +1,166 @@
 package com.supermercado_spring.service;
 
 import com.supermercado_spring.dto.ProductoDTO;
+import com.supermercado_spring.exception.DemandaEnExcesoException;
 import com.supermercado_spring.exception.ProductoDuplicadoException;
 import com.supermercado_spring.exception.ProductoNoEncontradoException;
+import com.supermercado_spring.exception.StockProductoNullException;
 import com.supermercado_spring.mapper.Mapper;
 import com.supermercado_spring.model.Producto;
 import com.supermercado_spring.repository.ProductoRepositoryInterface;
 import com.supermercado_spring.service.interfaces.ProductoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+
 import java.util.List;
 
 @Service
 public class ProductoService implements ProductoServiceInterface {
 
+    //Inyeccion por Autowired
     @Autowired
     private ProductoRepositoryInterface productoRepository;
 
-    @Override public List<ProductoDTO> traerProductos() {
+    //Inyeccion por constructor (dicen que es mas recomendable)
+    /*private final ProductoRepositoryInterface productoRepository;
 
-        List<ProductoDTO> productos =
-                productoRepository
-                        .findAll()
-                        .stream()
-                        .sorted(Comparator.comparing(Producto::getIdProducto))
-                        .map(Mapper::toProductoDTO)
-                        .toList();
+    public ProductoService(ProductoRepositoryInterface productoRepository) {
+        this.productoRepository = productoRepository;
+    }*/
 
-        return productos;
+
+
+    @Override
+    public List<ProductoDTO> traerProductos() {
+
+        return productoRepository.findAll(Sort.by(Sort.Direction.ASC,"idProducto")) //idProducto es el nombre del atributo de Producto
+                .stream()
+                .map(Mapper::toProductoDTO)
+                .toList();
     }
 
     @Override
     public ProductoDTO buscarProducto(Long id) {
 
-        ProductoDTO productoDTO =
-                productoRepository
-                .findById(id)
-                .map(Mapper::toProductoDTO)
-                .orElseThrow(() -> new ProductoNoEncontradoException(id));
-
-        return productoDTO;
+        return Mapper.toProductoDTO(obtenerProducto(id));
     }
 
     @Override
-    public void crearProducto(ProductoDTO productoDTO) {
+    public void crearProducto(ProductoDTO dto) {
 
-        if (productoRepository.existsByNombreProducto(productoDTO.getNombreProducto())) {
-            throw new ProductoDuplicadoException(productoDTO.getNombreProducto());
+        validarProductoDuplicado(dto.getNombreProducto());
+
+        productoRepository.save(crearEntidad(dto));
+    }
+
+    @Override
+    public void actualizarProducto(Long id, ProductoDTO dto) {
+
+        Producto producto = obtenerProducto(id);
+
+        if (!producto.getNombreProducto().equals(dto.getNombreProducto())) {
+            validarProductoDuplicado(dto.getNombreProducto());
         }
 
-        Producto producto = Producto.builder()
-                .nombreProducto(productoDTO.getNombreProducto())
-                .enumCategoriaProducto(productoDTO.getEnumCategoriaProducto())
-                .precioProducto(productoDTO.getPrecioProducto())
-                .cantidadProducto(productoDTO.getCantidadProducto())
-                .build();
+        producto.setNombreProducto(dto.getNombreProducto());
+        producto.setEnumCategoriaProducto(dto.getEnumCategoriaProducto());
+        producto.setPrecioProducto(dto.getPrecioProducto());
+        producto.setCantidadProducto(dto.getCantidadProducto());
 
         productoRepository.save(producto);
     }
 
     @Override
-    public void actualizarProducto(Long id, ProductoDTO productoDTONuevo) {
-        Producto productoViejo = productoRepository
-                .findById(id)
-                .orElseThrow(() -> new ProductoNoEncontradoException(id));
-
-        //Con esto permites que el producto conserve su nombre, pero impides que adopte el nombre de otro producto existente.
-        //Si los nombres entre los productos son diferentes y ademas eñ nombre nuevo existe en la base de datos. Entonces esta duplicado
-        if (!productoViejo.getNombreProducto().equals(productoDTONuevo.getNombreProducto())
-                && productoRepository.existsByNombreProducto(productoDTONuevo.getNombreProducto())) {
-
-            throw new ProductoDuplicadoException(productoDTONuevo.getNombreProducto());
-        }
-
-        productoViejo.setNombreProducto(productoDTONuevo.getNombreProducto());
-        productoViejo.setEnumCategoriaProducto(productoDTONuevo.getEnumCategoriaProducto());
-        productoViejo.setPrecioProducto(productoDTONuevo.getPrecioProducto());
-        productoViejo.setCantidadProducto(productoDTONuevo.getCantidadProducto());
-        productoRepository.save(productoViejo);
-    }
-
-    @Override
     public void eliminarProducto(Long id) {
-        if (!productoRepository.existsById(id)) {
-            throw new ProductoNoEncontradoException(id);
+
+        productoRepository.delete(obtenerProducto(id));
+    }
+
+    @Override
+    public Long consultarCantidad(Long id) {
+
+        Producto producto = obtenerProducto(id);
+
+        validarCantidad(producto);
+
+        return producto.getCantidadProducto();
+    }
+
+    @Override
+    public void aumentarStock(Long id, Long cantidad) {
+
+        Producto producto = obtenerProducto(id);
+
+        validarCantidad(producto);
+
+        producto.setCantidadProducto(producto.getCantidadProducto() + cantidad);
+
+        productoRepository.save(producto);
+    }
+
+    @Override
+    public void reducirStock(Long id, Long cantidad) {
+
+        Producto producto = obtenerProducto(id);
+
+        validarCantidad(producto);
+
+        if (producto.getCantidadProducto() < cantidad) {
+            throw new DemandaEnExcesoException(
+                    producto.getNombreProducto(),
+                    cantidad,
+                    producto.getCantidadProducto()
+            );
         }
 
-        productoRepository.deleteById(id);
+        producto.setCantidadProducto(producto.getCantidadProducto() - cantidad);
 
-        /*
-        Producto producto = productoRepository.findById(id)
-        .orElseThrow(() -> new ProductoNoEncontradoException(id));
-        productoRepository.delete(producto);
-        */ //Tambien valida
-
+        productoRepository.save(producto);
     }
 
     @Override
-    public ProductoDTO crearProductoDTO(ProductoDTO productoDTO) {
-        return null;
+    public void vaciarStock(Long id) {
+
+        Producto producto = obtenerProducto(id);
+
+        validarCantidad(producto);
+
+        producto.setCantidadProducto(0L);
+
+        productoRepository.save(producto);
     }
 
-    @Override
-    public ProductoDTO actualizarProductoDTO(Long id, ProductoDTO productoDTO) {
-        return null;
+
+    private Producto obtenerProducto(Long id) {
+
+        return productoRepository.findById(id)
+                .orElseThrow(() -> new ProductoNoEncontradoException(id));
     }
 
+    private void validarCantidad(Producto producto) {
+
+        if (producto.getCantidadProducto() == null) {
+            throw new StockProductoNullException(producto.getIdProducto());
+        }
+    }
+
+    private void validarProductoDuplicado(String nombreProducto) {
+
+        if (productoRepository.existsByNombreProducto(nombreProducto)) {
+            throw new ProductoDuplicadoException(nombreProducto);
+        }
+    }
+
+    private Producto crearEntidad(ProductoDTO dto) {
+
+        return Producto.builder()
+                .nombreProducto(dto.getNombreProducto())
+                .enumCategoriaProducto(dto.getEnumCategoriaProducto())
+                .precioProducto(dto.getPrecioProducto())
+                .cantidadProducto(dto.getCantidadProducto())
+                .build();
+    }
 
 }

@@ -13,9 +13,9 @@ public interface ProductoServiceInterface {
     void crearProducto(ProductoDTO productoDTO);
     void actualizarProducto(Long id, ProductoDTO productoDTO);
     void eliminarProducto(Long id);
-
-    //Prueba
-    ProductoDTO crearProductoDTO(ProductoDTO productoDTO);
-    ProductoDTO actualizarProductoDTO(Long id, ProductoDTO productoDTO);
+    Long consultarCantidad(Long id);
+    void aumentarStock(Long id, Long cant);
+    void reducirStock(Long id, Long cant);
+    void vaciarStock(Long id);
 
 }

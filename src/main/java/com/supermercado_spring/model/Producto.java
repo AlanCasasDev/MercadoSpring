@@ -30,6 +30,6 @@ public class Producto {
 
     //@PositiveOrZero(message = "La cantidad de productos solo puede ser 0 o mayor a 0")
     @Column(name = "cant_producto", nullable = false)
-    private Long cantidadProducto;
+    private Long cantidadProducto; //Stock
 
 }
