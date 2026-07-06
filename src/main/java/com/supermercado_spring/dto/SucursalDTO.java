@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class SucursalDTO {
 
-    @Positive(message = "El id no puede ser negativo ni 0")
+    //@Positive(message = "El id no puede ser negativo ni 0")
     private Long idSucursal;
 
     @NotBlank(message = "El nombre de la sucursal no puede estar vacio ni en blanco")

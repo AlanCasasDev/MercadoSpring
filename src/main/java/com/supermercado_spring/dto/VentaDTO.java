@@ -13,7 +13,7 @@ import java.util.List;
 public class VentaDTO {
 
     //Datos de Venta
-    @Positive(message = "El id debe ser estrictamente positivo")
+    //@Positive(message = "El id debe ser estrictamente positivo")
     private Long idVenta;
 
     @PastOrPresent(message = "La fecha solo puede ser actual o del pasado (No se aceptan fechas futuras)")

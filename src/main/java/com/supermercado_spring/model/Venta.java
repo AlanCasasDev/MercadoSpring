@@ -40,6 +40,6 @@ public class Venta {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursal sucursal;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "venta")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleVenta> detalle = new ArrayList<>();
 }

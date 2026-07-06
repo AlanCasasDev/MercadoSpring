@@ -1,6 +1,5 @@
 package com.supermercado_spring.exception;
 
-import com.supermercado_spring.dto.ProductoDTO;
 
 public class ProductoDuplicadoException extends RuntimeException {
     public ProductoDuplicadoException(String nombreProducto) {

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class DetalleVentaDTO {
 
-    @Positive(message = "El id no puede ser negativo ni 0")
+    //@Positive(message = "El id no puede ser negativo ni 0")
     private Long idDetalleVenta;
 
     //Venta

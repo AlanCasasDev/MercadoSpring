@@ -43,11 +43,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-    @ExceptionHandler(DemandaEnExcesoException.class)
-    public ResponseEntity<String> manejarDemandaEnExceso(DemandaEnExcesoException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
-
     @ExceptionHandler(StockProductoInsuficienteException.class)
     public ResponseEntity<String> manejarStockInsuficiente(StockProductoInsuficienteException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());

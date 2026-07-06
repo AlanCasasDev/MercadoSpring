@@ -17,5 +17,6 @@ public interface ProductoServiceInterface {
     void aumentarStock(Long id, Long cant);
     void reducirStock(Long id, Long cant);
     void vaciarStock(Long id);
+    //Producto obtenerProducto(Long id)
 
 }

@@ -1,9 +1,9 @@
 package com.supermercado_spring.service;
 
 import com.supermercado_spring.dto.ProductoDTO;
-import com.supermercado_spring.exception.DemandaEnExcesoException;
 import com.supermercado_spring.exception.ProductoDuplicadoException;
 import com.supermercado_spring.exception.ProductoNoEncontradoException;
+import com.supermercado_spring.exception.StockProductoInsuficienteException;
 import com.supermercado_spring.exception.StockProductoNullException;
 import com.supermercado_spring.mapper.Mapper;
 import com.supermercado_spring.model.Producto;
@@ -93,7 +93,7 @@ public class ProductoService implements ProductoServiceInterface {
 
         Producto producto = obtenerProducto(id);
 
-        validarCantidad(producto);
+        validarCantidad(producto);  //si la cantidad es null arroja excpetion
 
         producto.setCantidadProducto(producto.getCantidadProducto() + cantidad);
 
@@ -105,10 +105,10 @@ public class ProductoService implements ProductoServiceInterface {
 
         Producto producto = obtenerProducto(id);
 
-        validarCantidad(producto);
+        validarCantidad(producto); //si la cantidad es null arroja excpetion
 
         if (producto.getCantidadProducto() < cantidad) {
-            throw new DemandaEnExcesoException(
+            throw new StockProductoInsuficienteException(
                     producto.getNombreProducto(),
                     cantidad,
                     producto.getCantidadProducto()
@@ -125,7 +125,7 @@ public class ProductoService implements ProductoServiceInterface {
 
         Producto producto = obtenerProducto(id);
 
-        validarCantidad(producto);
+        validarCantidad(producto);  //si la cantidad es null arroja excpetion
 
         producto.setCantidadProducto(0L);
 

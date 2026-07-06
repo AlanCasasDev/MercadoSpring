@@ -56,7 +56,7 @@ public class Mapper {
     }
 
     //Map de Sucursal a SucursalDTO
-    public static SucursalDTO wtoSucursalDTO(Sucursal s) {
+    public static SucursalDTO toSucursalDTO(Sucursal s) {
         if (s == null) {
             return null;
         }
