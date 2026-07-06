@@ -8,12 +8,10 @@ public interface SucursalServiceInterface {
 
     List<SucursalDTO> traerSucursales();
     SucursalDTO buscarSucursal(Long id);
-    Boolean crearSucursal(SucursalDTO sucursalDTO);
-    Boolean actualizarSucursal(Long id, SucursalDTO sucursalDTO);
-    Boolean eliminarSucursal(Long id);
+    void crearSucursal(SucursalDTO sucursalDTO);
+    void actualizarSucursal(Long id, SucursalDTO sucursalDTO);
+    void eliminarSucursal(Long id);
 
-    //Prueba
-    SucursalDTO crearSucursalDTO(SucursalDTO sucursalDTO);
-    SucursalDTO actualizarSucursalDTO(Long id, SucursalDTO sucursalDTO);
+
 
 }

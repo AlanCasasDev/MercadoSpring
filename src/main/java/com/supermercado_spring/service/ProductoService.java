@@ -52,7 +52,7 @@ public class ProductoService implements ProductoServiceInterface {
 
         validarProductoDuplicado(dto.getNombreProducto());
 
-        productoRepository.save(crearEntidad(dto));
+        productoRepository.save(Mapper.toProducto(dto));
     }
 
     @Override
@@ -153,14 +153,5 @@ public class ProductoService implements ProductoServiceInterface {
         }
     }
 
-    private Producto crearEntidad(ProductoDTO dto) {
-
-        return Producto.builder()
-                .nombreProducto(dto.getNombreProducto())
-                .enumCategoriaProducto(dto.getEnumCategoriaProducto())
-                .precioProducto(dto.getPrecioProducto())
-                .cantidadProducto(dto.getCantidadProducto())
-                .build();
-    }
 
 }

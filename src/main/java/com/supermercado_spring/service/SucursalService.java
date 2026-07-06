@@ -1,10 +1,8 @@
 package com.supermercado_spring.service;
 
-import com.supermercado_spring.dto.ProductoDTO;
 import com.supermercado_spring.dto.SucursalDTO;
 import com.supermercado_spring.exception.*;
 import com.supermercado_spring.mapper.Mapper;
-import com.supermercado_spring.model.Producto;
 import com.supermercado_spring.model.Sucursal;
 import com.supermercado_spring.repository.SucursalRepositoryInterface;
 import com.supermercado_spring.service.interfaces.SucursalServiceInterface;
@@ -32,7 +30,7 @@ public class SucursalService implements SucursalServiceInterface {
     @Override
     public List<SucursalDTO> traerSucursales() {
 
-        return sucursalRepository.findAll(Sort.by(Sort.Direction.ASC,"idSucursal")) //idProducto es el nombre del atributo de Producto
+        return sucursalRepository.findAll(Sort.by(Sort.Direction.ASC,"idSucursal")) //idSucursal es el nombre del atributo de Sucursal
                 .stream()
                 .map(Mapper::toSucursalDTO)
                 .toList();
@@ -44,32 +42,39 @@ public class SucursalService implements SucursalServiceInterface {
         return Mapper.toSucursalDTO(obtenerSucursal(id));
     }
 
-    //TODO DEJE POR ACA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     @Override
-    public Boolean crearSucursal(SucursalDTO sucursalDTO) {
-        return null;
+    public void crearSucursal(SucursalDTO dto) {
+        verificarDireccionSucursal(dto.getDireccionSucursal());
+        verificarNombreSucursal(dto.getNombreSucursal());
+
+        sucursalRepository.save(Mapper.toSucursal(dto));
     }
 
     @Override
-    public Boolean actualizarSucursal(Long id, SucursalDTO sucursalDTO) {
-        return null;
+    public void actualizarSucursal(Long id, SucursalDTO dto) {
+        Sucursal sucursal = obtenerSucursal(id);
+
+        if (!sucursal.getNombreSucursal().equals(dto.getNombreSucursal())) {
+            verificarNombreSucursal(dto.getNombreSucursal());
+        }
+
+        if (!sucursal.getDireccionSucursal().equals(dto.getDireccionSucursal())) {
+            verificarDireccionSucursal(dto.getDireccionSucursal());
+        }
+
+        sucursal.setNombreSucursal(dto.getNombreSucursal());
+        sucursal.setDireccionSucursal(dto.getDireccionSucursal());
+
+        sucursalRepository.save(sucursal);
     }
 
     @Override
-    public Boolean eliminarSucursal(Long id) {
-        return null;
+    public void eliminarSucursal(Long id) {
+        sucursalRepository.delete(obtenerSucursal(id));
     }
 
-    @Override
-    public SucursalDTO crearSucursalDTO(SucursalDTO sucursalDTO) {
-        return null;
-    }
-
-    @Override
-    public SucursalDTO actualizarSucursalDTO(Long id, SucursalDTO sucursalDTO) {
-        return null;
-    }
 
 
     //---------------------------------------------------------------------
@@ -79,25 +84,18 @@ public class SucursalService implements SucursalServiceInterface {
                 .orElseThrow(() -> new SucursalNoEncontradaException(id));
     }
 
-    private void validarDireccionSucursal(String direccionSucursal) {
+    private void verificarDireccionSucursal(String direccionSucursal) {
 
         if (sucursalRepository.existsByDireccionSucursal(direccionSucursal)) {
             throw new DireccionSucursalDuplicadaException(direccionSucursal);
         }
     }
 
-    private void validarNombreSucursal(String nombreSucursal) {
+    private void verificarNombreSucursal(String nombreSucursal) {
 
-        if (sucursalRepository.existsByDireccionSucursal(nombreSucursal)) {
+        if (sucursalRepository.existsByNombreSucursal(nombreSucursal)) {
             throw new NombreSucursalDuplicadaException(nombreSucursal);
         }
     }
 
-    private Sucursal crearEntidad(SucursalDTO dto) {
-
-        return Sucursal.builder()
-                .nombreSucursal(dto.getNombreSucursal())
-                .direccionSucursal(dto.getDireccionSucursal())
-                .build();
-    }
 }

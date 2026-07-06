@@ -53,6 +53,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    @ExceptionHandler(SucursalNoEncontradaException.class)
+    public ResponseEntity<String> manejarSucursalNoEncontrada(SucursalNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NombreSucursalDuplicadaException.class)
+    public ResponseEntity<String> manejarNombreSucursalDuplicada(NombreSucursalDuplicadaException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DireccionSucursalDuplicadaException.class)
+    public ResponseEntity<String> manejarDireccionSucursalDuplicada(DireccionSucursalDuplicadaException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> manejarExcepcionGenerica(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
