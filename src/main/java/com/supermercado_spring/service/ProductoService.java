@@ -20,15 +20,15 @@ import java.util.List;
 public class ProductoService implements ProductoServiceInterface {
 
     //Inyeccion por Autowired
-    @Autowired
-    private ProductoRepositoryInterface productoRepository;
+    /*@Autowired
+    private ProductoRepositoryInterface productoRepository;*/
 
     //Inyeccion por constructor (dicen que es mas recomendable)
-    /*private final ProductoRepositoryInterface productoRepository;
+    private final ProductoRepositoryInterface productoRepository;
 
     public ProductoService(ProductoRepositoryInterface productoRepository) {
         this.productoRepository = productoRepository;
-    }*/
+    }
 
 
 

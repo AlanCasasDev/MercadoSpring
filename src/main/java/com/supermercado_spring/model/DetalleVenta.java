@@ -17,15 +17,6 @@ public class DetalleVenta {
     @Column(name = "id_detalleventa")
     private Long idDetalleVenta;
 
-    //Venta
-    //@NotNull(message = "El detalle debe tener una venta asociada. La venta no puede ser nula.")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Venta venta;
-
-    //@Positive(message = "El total no puede ser negativo ni 0")
-    @Column(name = "total",  nullable = false, precision = 19, scale = 2)
-    private BigDecimal total;
-
     //Producto
     //@NotNull(message = "El detalle debe tener una producto asociado. El producto no puede ser nulo.")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -38,5 +29,14 @@ public class DetalleVenta {
     //@Positive(message = "El valor del producto debe ser positivo y mayor a 0")
     @Column(name = "dv_precio_product", nullable = false, precision = 11, scale = 2)
     private BigDecimal precioUnitario;
+
+    //Venta
+    //@NotNull(message = "El detalle debe tener una venta asociada. La venta no puede ser nula.")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Venta venta;
+
+    //@Positive(message = "El subtotal no puede ser negativo ni 0")
+    @Column(name = "subtotal",  nullable = false, precision = 19, scale = 2)
+    private BigDecimal subtotal;
 
 }

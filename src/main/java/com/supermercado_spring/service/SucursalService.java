@@ -15,15 +15,15 @@ import java.util.List;
 public class SucursalService implements SucursalServiceInterface {
 
     //Inyeccion por Autowired
-    @Autowired
-    private SucursalRepositoryInterface sucursalRepository;
+    /*@Autowired
+    private SucursalRepositoryInterface sucursalRepository;*/
 
     //Inyeccion por constructor (dicen que es mas recomendable)
-    /*private final ProductoRepositoryInterface productoRepository;
+    private final SucursalRepositoryInterface sucursalRepository;
 
-    public ProductoService(ProductoRepositoryInterface productoRepository) {
-        this.productoRepository = productoRepository;
-    }*/
+    public SucursalService(SucursalRepositoryInterface sucursalRepository) {
+        this.sucursalRepository = sucursalRepository;
+    }
 
 
 

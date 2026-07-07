@@ -13,14 +13,9 @@ public class DetalleVentaDTO {
     //@Positive(message = "El id no puede ser negativo ni 0")
     private Long idDetalleVenta;
 
-    //Venta
-    @Positive(message = "El valor del subtotal no puede ser 0 ni negativo.")
-    private BigDecimal subTotalVenta; //Esto seria la cant de produc * cantidad
-
-    @Positive(message = "El total de la venta no puede ser negativo ni 0")
-    private BigDecimal total;
-
     //Producto
+    private Long idProducto;
+
     @NotBlank(message = "El nombre del producto no puede estar en blanco ni nulo.")
     private String nombreProducto;
 
@@ -29,6 +24,10 @@ public class DetalleVentaDTO {
 
     @Positive(message = "El valor del producto debe ser positivo y mayor a 0")
     private BigDecimal precioUnitario;
+
+    //Venta
+    @Positive(message = "El subtotal de la venta no puede ser negativo ni 0")
+    private BigDecimal subtotal;
 
 
 }
