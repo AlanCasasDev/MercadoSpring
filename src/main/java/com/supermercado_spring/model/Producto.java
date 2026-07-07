@@ -32,4 +32,7 @@ public class Producto {
     @Column(name = "cant_producto", nullable = false)
     private Long cantidadProducto; //Stock
 
+    @Version
+    private Long version;
+
 }

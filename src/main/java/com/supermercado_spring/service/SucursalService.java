@@ -4,13 +4,16 @@ import com.supermercado_spring.dto.SucursalDTO;
 import com.supermercado_spring.exception.*;
 import com.supermercado_spring.mapper.Mapper;
 import com.supermercado_spring.model.Sucursal;
+import com.supermercado_spring.repository.VentaRepositoryInterface;
 import com.supermercado_spring.repository.SucursalRepositoryInterface;
 import com.supermercado_spring.service.interfaces.SucursalServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 @Service
 public class SucursalService implements SucursalServiceInterface {
 
@@ -20,14 +23,17 @@ public class SucursalService implements SucursalServiceInterface {
 
     //Inyeccion por constructor (dicen que es mas recomendable)
     private final SucursalRepositoryInterface sucursalRepository;
+    private final VentaRepositoryInterface ventaRepository;
 
-    public SucursalService(SucursalRepositoryInterface sucursalRepository) {
+    public SucursalService(SucursalRepositoryInterface sucursalRepository, VentaRepositoryInterface ventaRepository) {
         this.sucursalRepository = sucursalRepository;
+        this.ventaRepository = ventaRepository;
     }
 
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<SucursalDTO> traerSucursales() {
 
         return sucursalRepository.findAll(Sort.by(Sort.Direction.ASC,"idSucursal")) //idSucursal es el nombre del atributo de Sucursal
@@ -38,6 +44,7 @@ public class SucursalService implements SucursalServiceInterface {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SucursalDTO buscarSucursal(Long id) {
         return Mapper.toSucursalDTO(obtenerSucursal(id));
     }
@@ -45,6 +52,7 @@ public class SucursalService implements SucursalServiceInterface {
 
 
     @Override
+    @Transactional
     public void crearSucursal(SucursalDTO dto) {
         verificarDireccionSucursal(dto.getDireccionSucursal());
         verificarNombreSucursal(dto.getNombreSucursal());
@@ -53,14 +61,15 @@ public class SucursalService implements SucursalServiceInterface {
     }
 
     @Override
+    @Transactional
     public void actualizarSucursal(Long id, SucursalDTO dto) {
         Sucursal sucursal = obtenerSucursal(id);
 
-        if (!sucursal.getNombreSucursal().equals(dto.getNombreSucursal())) {
+        if (!Objects.equals(sucursal.getNombreSucursal(), dto.getNombreSucursal())) {
             verificarNombreSucursal(dto.getNombreSucursal());
         }
 
-        if (!sucursal.getDireccionSucursal().equals(dto.getDireccionSucursal())) {
+        if (!Objects.equals(sucursal.getDireccionSucursal(), dto.getDireccionSucursal())) {
             verificarDireccionSucursal(dto.getDireccionSucursal());
         }
 
@@ -71,8 +80,15 @@ public class SucursalService implements SucursalServiceInterface {
     }
 
     @Override
+    @Transactional
     public void eliminarSucursal(Long id) {
-        sucursalRepository.delete(obtenerSucursal(id));
+        Sucursal sucursal = obtenerSucursal(id);
+
+        if (ventaRepository.existsBySucursalId(id)) {
+            throw new SucursalEnUsoException(id);
+        }
+
+        sucursalRepository.delete(sucursal);
     }
 
 

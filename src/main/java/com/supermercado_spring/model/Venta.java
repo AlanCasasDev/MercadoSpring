@@ -29,7 +29,7 @@ public class Venta {
     private BigDecimal total;
 
     //@NotNull(message = "La venta tiene que tener un estado asociado")
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name ="estado_venta", nullable = false, length =25)
     private EnumEstadoVenta estadoVenta;
 
