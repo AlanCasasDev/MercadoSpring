@@ -1,0 +1,719 @@
+{
+  "info": {
+    "_postman_id": "c9897047-d8ba-49e8-ae8f-9b6bdcfdc301",
+    "name": "MercadoSping",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36917057"
+  },
+  "item": [
+    {
+      "name": "ProductoRequests",
+      "item": [
+        {
+          "name": "ListarProductos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TraerProductoExistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "9"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorProductoInexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/9999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CrearProducto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombreProducto\": \"Alimento para Therians 5kg\",\r\n        \"enumCategoriaProducto\": \"MASCOTAS\",\r\n        \"precioProducto\": 6500.00,\r\n        \"cantidadProducto\": 300\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/productos/crear_producto",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "crear_producto"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorCrearProductoRepetido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"nombreProducto\": \"Arroz 1kg\",\r\n        \"enumCategoriaProducto\": \"ALMACEN\",\r\n        \"precioProducto\": 1800.00,\r\n        \"cantidadProducto\": 298\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/productos/crear_producto",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "crear_producto"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorCrearProductoSinNombre",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"nombreProducto\": \"\",\r\n        \"enumCategoriaProducto\": \"MASCOTAS\",\r\n        \"precioProducto\": 133.00,\r\n        \"cantidadProducto\": 568\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/productos/crear_producto",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "crear_producto"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ActualizarProducto",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombreProducto\": \"Alimento para Furras 5kg\",\r\n        \"enumCategoriaProducto\": \"MASCOTAS\",\r\n        \"precioProducto\": 9500.00,\r\n        \"cantidadProducto\": 250\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/productos/31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "31"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "BorrarProducto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/32",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "32"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorBorrarProductoInexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/2500",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "2500"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TraerCantidadProductos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/5/cantidad",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "5",
+                "cantidad"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "IncrementarCantProducto",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/5/stock/aumentar?cantidad=52",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "5",
+                "stock",
+                "aumentar"
+              ],
+              "query": [
+                {
+                  "key": "cantidad",
+                  "value": "52"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ReducirCantProducto",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/5/stock/reducir?cantidad=300",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "5",
+                "stock",
+                "reducir"
+              ],
+              "query": [
+                {
+                  "key": "cantidad",
+                  "value": "300"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorReducirCantProductoEnExceso",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/5/stock/reducir?cantidad=9999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "5",
+                "stock",
+                "reducir"
+              ],
+              "query": [
+                {
+                  "key": "cantidad",
+                  "value": "9999"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "VaciarStockProducto",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/productos/31/stock/vaciar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "productos",
+                "31",
+                "stock",
+                "vaciar"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SucursalRequests",
+      "item": [
+        {
+          "name": "ListarSucursales",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/sucursales",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TraerSucursalExistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/sucursales/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorSucursalInexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/sucursales/999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CrearSucursal",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombreSucursal\": \"Sucursal La Plata\",\r\n        \"direccionSucursal\": \"Av. 80 1962\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/sucursales/crear_sucursal",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "crear_sucursal"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorCrearSucursalDuplicada",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombreSucursal\": \"Sucursal La Plata\",\r\n        \"direccionSucursal\": \"Av. 19 1962\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/sucursales/crear_sucursal",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "crear_sucursal"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorCrearSucursalSinNombreNiDireccion",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"nombreSucursal\": \"\",\r\n        \"direccionSucursal\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/sucursales/crear_sucursal",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "crear_sucursal"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ActualizarSucursal",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"nombreSucursal\": \"Sucursal La Plata\",\r\n        \"direccionSucursal\": \"Av. 80 941\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/sucursales/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorActualizarSucursalSinParametros",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"nombreSucursal\": \"\",\r\n        \"direccionSucursal\": \"\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/sucursales/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "BorrarSucursal",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/sucursales/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorBorrarSucursalInexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/sucursales/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "sucursales",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "VentaRequests",
+      "item": [
+        {
+          "name": "ListarVentas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/ventas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "ventas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TraerVenta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/ventas/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "ventas",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ErrorTraerVentaInexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/ventas/9999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "ventas",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CrearVenta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fechaVenta\": \"2026-07-08T10:30:00\",\r\n  \"estadoVenta\": \"PENDIENTE\",\r\n  \"idSucursal\": 1,\r\n  \"detalles\": [\r\n    {\r\n      \"idProducto\": 1,\r\n      \"cantidad\": 2,\r\n      \"precioUnitario\": 1500.00,\r\n      \"subtotal\": 3000.00\r\n    },\r\n    {\r\n      \"idProducto\": 5,\r\n      \"cantidad\": 1,\r\n      \"precioUnitario\": 2500.00,\r\n      \"subtotal\": 2500.00\r\n    }\r\n  ],\r\n  \"total\": 6100.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/ventas/crear_venta",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "ventas",
+                "crear_venta"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "BorrarVenta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/ventas/41",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "ventas",
+                "41"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

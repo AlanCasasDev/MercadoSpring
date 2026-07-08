@@ -28,7 +28,7 @@ public class VentaDTO {
     //Datos de DetalleVenta
     @NotNull(message = "La venta tiene que tener detalles asociados.")
     @NotEmpty(message = "La lista de detalles no puede estar vacia.")
-    @Size(min = 1)
+    //@Size(min = 1)
     private List<@Valid DetalleVentaDTO> detalles;
 
     //Datos de Sucursal

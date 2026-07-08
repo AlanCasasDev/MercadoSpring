@@ -29,16 +29,19 @@ public class SucursalController {
         this.sucursalService = sucursalService;
     }
 
+    //http://localhost:8080/sucursales
     @GetMapping
     public ResponseEntity<List<SucursalDTO>> traerSucursales() {
         return ResponseEntity.ok(sucursalService.traerSucursales());
     }
 
+    //http://localhost:8080/sucursales/{id}
     @GetMapping("/{id}")
     public ResponseEntity<SucursalDTO> buscarSucursal(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(sucursalService.buscarSucursal(id));
     }
 
+    //http://localhost:8080/sucursales/crear_sucursal
     @PostMapping("/crear_sucursal")
     public ResponseEntity<String> crearSucursal(@Valid @RequestBody SucursalDTO sucursalDTO) {
         sucursalService.crearSucursal(sucursalDTO);
@@ -46,6 +49,7 @@ public class SucursalController {
                 .body("Sucursal creada correctamente.");
     }
 
+    //http://localhost:8080/sucursales/{id}
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarSucursal(
             @PathVariable @Positive Long id,
@@ -55,6 +59,7 @@ public class SucursalController {
         return ResponseEntity.ok("Sucursal actualizada correctamente.");
     }
 
+    //http://localhost:8080/sucursales/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarSucursal(@PathVariable @Positive Long id) {
         sucursalService.eliminarSucursal(id);

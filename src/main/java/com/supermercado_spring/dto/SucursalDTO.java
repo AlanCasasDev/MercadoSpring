@@ -12,10 +12,10 @@ public class SucursalDTO {
     private Long idSucursal;
 
     @NotBlank(message = "El nombre de la sucursal no puede estar vacio ni en blanco")
-    @Size(min = 2, max = 25)
+    //@Size(min = 2, max = 25)
     private String nombreSucursal;
 
     @NotBlank(message = "La direccion de la sucursal no puede estar vacio ni en blanco")
-    @Size(min = 5, max = 50)
+    //@Size(min = 5, max = 50)
     private String direccionSucursal;
 }

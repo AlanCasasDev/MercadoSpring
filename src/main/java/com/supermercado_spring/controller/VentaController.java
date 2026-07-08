@@ -29,16 +29,19 @@ public class VentaController {
         this.ventaService = ventaService;
     }
 
+    //http://localhost:8080/ventas/
     @GetMapping
     public ResponseEntity<List<VentaDTO>> traerVentas() {
         return ResponseEntity.ok(ventaService.traerVentas());
     }
 
+    //http://localhost:8080/ventas/{id}
     @GetMapping("/{id}")
     public ResponseEntity<VentaDTO> buscarVenta(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(ventaService.buscarVenta(id));
     }
 
+    //http://localhost:8080/ventas/crear_venta
     @PostMapping("/crear_venta")
     public ResponseEntity<String> crearVenta(@Valid @RequestBody VentaDTO ventaDTO) {
         ventaService.crearVenta(ventaDTO);
@@ -46,6 +49,7 @@ public class VentaController {
                 .body("Venta creada correctamente.");
     }
 
+    //http://localhost:8080/ventas/{id}
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarVenta(
             @PathVariable @Positive Long id,
@@ -55,6 +59,7 @@ public class VentaController {
         return ResponseEntity.ok("Venta actualizada correctamente.");
     }
 
+    //http://localhost:8080/ventas/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarVenta(@PathVariable @Positive Long id) {
         ventaService.eliminarVenta(id);

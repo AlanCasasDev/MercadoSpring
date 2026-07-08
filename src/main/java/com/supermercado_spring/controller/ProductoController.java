@@ -50,6 +50,8 @@ public class ProductoController {
                 .body("Producto creado correctamente.");
     }
 
+    //http://localhost:8080/productos/{id}
+    //Put modificar todo el recurso, patch solo modifica uno de sus campos
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarProducto(
             @PathVariable @Positive Long id,
@@ -59,17 +61,20 @@ public class ProductoController {
         return ResponseEntity.ok("Producto actualizado correctamente.");
     }
 
+    //http://localhost:8080/productos/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarProducto(@PathVariable @Positive Long id) {
         productoService.eliminarProducto(id);
         return ResponseEntity.ok("Producto eliminado correctamente.");
     }
 
+    //http://localhost:8080/productos/{id}/cantidad
     @GetMapping("/{id}/cantidad")
     public ResponseEntity<Long> consultarCantidad(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(productoService.consultarCantidad(id));
     }
 
+    //http://localhost:8080/productos/5/stock/aumentar?cantidad=52
     @PutMapping("/{id}/stock/aumentar")
     public ResponseEntity<String> aumentarStock(
             @PathVariable @Positive Long id,
@@ -79,6 +84,7 @@ public class ProductoController {
         return ResponseEntity.ok("Stock aumentado correctamente.");
     }
 
+    //http://localhost:8080/productos/5/stock/reducir?cantidad=50
     @PutMapping("/{id}/stock/reducir")
     public ResponseEntity<String> reducirStock(
             @PathVariable @Positive Long id,
@@ -88,6 +94,7 @@ public class ProductoController {
         return ResponseEntity.ok("Stock reducido correctamente.");
     }
 
+    //http://localhost:8080/productos/31/stock/vaciar
     @PutMapping("/{id}/stock/vaciar")
     public ResponseEntity<String> vaciarStock(@PathVariable @Positive Long id) {
         productoService.vaciarStock(id);

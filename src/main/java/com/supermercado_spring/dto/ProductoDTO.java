@@ -12,7 +12,7 @@ public class ProductoDTO {
     //@Positive(message = "El id no puede ser negativo ni 0")
     private Long idProducto;
 
-    @NotBlank(message = "El nombre del producto no puede estar vacio ni en blanco") @Size(min = 3, max = 50)
+    @NotBlank(message = "El nombre del producto no puede estar vacio ni en blanco") //@Size(min = 3, max = 50)
     private String nombreProducto;
 
     @NotNull(message = "La categoria no puede ser null") //Se usa en los enums y no @NotBlank
