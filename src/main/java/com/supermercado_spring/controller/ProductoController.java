@@ -30,16 +30,19 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
+    //http://localhost:8080/productos
     @GetMapping
     public ResponseEntity<List<ProductoDTO>> traerProductos() {
         return ResponseEntity.ok(productoService.traerProductos());
     }
 
+    //http://localhost:8080/productos/{id}
     @GetMapping("/{id}")
     public ResponseEntity<ProductoDTO> buscarProducto(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(productoService.buscarProducto(id));
     }
 
+    //http://localhost:8080/productos/crear_producto
     @PostMapping("/crear_producto")
     public ResponseEntity<String> crearProducto(@Valid @RequestBody ProductoDTO productoDTO) {
         productoService.crearProducto(productoDTO);
