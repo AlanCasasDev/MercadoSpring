@@ -2,13 +2,15 @@ package com.supermercado_spring.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class DetalleVentaDTO {
+public class DetalleVentaResponseDTO {
 
 
     //Producto
@@ -18,9 +20,10 @@ public class DetalleVentaDTO {
     @Positive(message = "La cantidad del producto debe ser mayor a 0")
     private Integer cantidad;
 
-    /*
+
     //@Positive(message = "El id no puede ser negativo ni 0")
     private Long idDetalleVenta;
+
 
     private String nombreProducto;
 
@@ -30,6 +33,6 @@ public class DetalleVentaDTO {
     //Venta
     @Positive(message = "El subtotal de la venta no puede ser negativo ni 0")
     private BigDecimal subtotal;
-    */
+
 
 }

@@ -7,15 +7,7 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -75,7 +67,7 @@ public class ProductoController {
     }
 
     //http://localhost:8080/productos/5/stock/aumentar?cantidad=52
-    @PutMapping("/{id}/stock/aumentar")
+    @PatchMapping("/{id}/stock/aumentar")
     public ResponseEntity<String> aumentarStock(
             @PathVariable @Positive Long id,
             @RequestParam @Positive Long cantidad
@@ -85,7 +77,7 @@ public class ProductoController {
     }
 
     //http://localhost:8080/productos/5/stock/reducir?cantidad=50
-    @PutMapping("/{id}/stock/reducir")
+    @PatchMapping("/{id}/stock/reducir")
     public ResponseEntity<String> reducirStock(
             @PathVariable @Positive Long id,
             @RequestParam @Positive Long cantidad
@@ -95,7 +87,7 @@ public class ProductoController {
     }
 
     //http://localhost:8080/productos/31/stock/vaciar
-    @PutMapping("/{id}/stock/vaciar")
+    @PatchMapping("/{id}/stock/vaciar")
     public ResponseEntity<String> vaciarStock(@PathVariable @Positive Long id) {
         productoService.vaciarStock(id);
         return ResponseEntity.ok("Stock vaciado correctamente.");

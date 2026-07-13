@@ -217,6 +217,14 @@ GET /productos/{id}
 POST /productos/crear_producto
 ```
 
+### Enum Categoria Producto Validos
+```
+ALMACEN / BEBIDAS / GASEOSAS / AGUAS / JUGOS / VINOS / CERVEZAS / LACTEOS / QUESOS / FIAMBRES / 
+CARNES / POLLO / PESCADOS / FRUTAS / VERDURAS / PANADERIA / PASTAS / CONGELADOS / SNACKS / 
+GOLOSINAS / DESAYUNO_Y_MERIENDA / LIMPIEZA / HIGIENE_PERSONAL / PERFUMERIA / BEBES / MASCOTAS /
+BAZAR /  LIBRERIA / ELECTRODOMESTICOS
+```
+
 ### Body
 
 ```json
@@ -269,13 +277,13 @@ GET /productos/{id}/cantidad
 ## Aumentar stock
 
 ```
-PUT /productos/{id}/stock/aumentar?cantidad=50
+PATCH /productos/{id}/stock/aumentar?cantidad=50
 ```
 
 Ejemplo
 
 ```
-PUT /productos/1/stock/aumentar?cantidad=25
+PATCH /productos/1/stock/aumentar?cantidad=25
 ```
 
 ---
@@ -283,13 +291,13 @@ PUT /productos/1/stock/aumentar?cantidad=25
 ## Reducir stock
 
 ```
-PUT /productos/{id}/stock/reducir?cantidad=10
+PATCH /productos/{id}/stock/reducir?cantidad=10
 ```
 
 Ejemplo
 
 ```
-PUT /productos/1/stock/reducir?cantidad=5
+PATCH /productos/1/stock/reducir?cantidad=5
 ```
 
 ---
@@ -297,7 +305,7 @@ PUT /productos/1/stock/reducir?cantidad=5
 ## Vaciar stock
 
 ```
-PUT /productos/{id}/stock/vaciar
+PATCH /productos/{id}/stock/vaciar
 ```
 
 ---
@@ -387,30 +395,36 @@ GET /ventas/{id}
 POST /ventas/crear_venta
 ```
 
+### Enum Estado Venta Validos
+```
+PENDIENTE
+CONFIRMADA
+PAGADA
+PREPARANDO
+LISTA_PARA_ENTREGA
+ENTREGADA
+COMPLETADA
+CANCELADA
+RECHAZADA
+REEMBOLSADA
+```
+
 ### Body
 
 ```json
 {
-  "fechaVenta": "2026-07-08T10:30:00",
-  "estadoVenta": "PAGADA",
-  "idSucursal": 1,
+  "estadoVenta": "PENDIENTE",
+  "idSucursal": 2,
   "detalles": [
     {
       "idProducto": 1,
-      "nombreProducto": "Arroz 1kg",
-      "precioUnitario": 1800.00,
-      "cantidad": 2,
-      "subTotal": 3600.00
+      "cantidad": 2
     },
     {
       "idProducto": 5,
-      "nombreProducto": "Gaseosa Cola 2.25L",
-      "precioUnitario": 2500.00,
-      "cantidad": 1,
-      "subTotal": 2500.00
+      "cantidad": 10
     }
-  ],
-  "total": 6100.00
+  ]
 }
 ```
 
@@ -466,15 +480,11 @@ Las respuestas devuelven los códigos HTTP apropiados junto con un mensaje descr
 
 ---
 
-# 🔮 Mejoras futuras
+# 🔮 Posibles Mejoras futuras
 
-Entre las mejoras previstas para el proyecto se encuentran:
+Entre las posibles mejoras previstas para el proyecto se encuentran:
 
 - Migración completa a convenciones REST.
-- Uso de PATCH para modificaciones parciales.
-- Cálculo automático del total de una venta desde el backend.
-- Cálculo automático de subtotales.
-- Evitar el envío de precios desde el cliente.
 - Incorporación de autenticación mediante Spring Security.
 - Documentación con OpenAPI / Swagger.
 - Pruebas unitarias e integración.

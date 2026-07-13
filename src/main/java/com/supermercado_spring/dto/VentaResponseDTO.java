@@ -10,33 +10,29 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
-public class VentaDTO {
-
-
-
-    /*
-    @PastOrPresent(message = "La fecha solo puede ser actual o del pasado (No se aceptan fechas futuras)")
-    private LocalDateTime fechaVenta;
-
-    @PositiveOrZero(message = "El total del a venta no puede ser negativo")
-    private BigDecimal total;
-    */
+public class VentaResponseDTO {
 
     //Datos de Venta
     //@Positive(message = "El id debe ser estrictamente positivo")
     private Long idVenta;
 
+    @PastOrPresent(message = "La fecha solo puede ser actual o del pasado (No se aceptan fechas futuras)")
+    private LocalDateTime fechaVenta;
+
     @NotNull(message = "La venta tiene que tener un estado asociado")
     private EnumEstadoVenta estadoVenta; //TODO capaz aca deberia ser String
+
+    //Datos de Sucursal
+    @Positive(message = "El id de la sucursal debe ser estrictamente positivo.")
+    private Long idSucursal;
 
 
     //Datos de DetalleVenta
     @NotNull(message = "La venta tiene que tener detalles asociados.")
     @NotEmpty(message = "La lista de detalles no puede estar vacia.")
     //@Size(min = 1)
-    private List<@Valid DetalleVentaDTO> detalles;
+    private List<@Valid DetalleVentaResponseDTO> detalles;
 
-    //Datos de Sucursal
-    @Positive(message = "El id de la sucursal debe ser estrictamente positivo.")
-    private Long idSucursal;
+    @PositiveOrZero(message = "El total del a venta no puede ser negativo")
+    private BigDecimal total;
 }

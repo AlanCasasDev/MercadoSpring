@@ -2,6 +2,7 @@ package com.supermercado_spring.service;
 
 import com.supermercado_spring.dto.DetalleVentaDTO;
 import com.supermercado_spring.dto.VentaDTO;
+import com.supermercado_spring.dto.VentaResponseDTO;
 import com.supermercado_spring.exception.ProductoNoEncontradoException;
 import com.supermercado_spring.exception.VentaDuplicadaException;
 import com.supermercado_spring.exception.VentaEstadoInvalidoException;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaService implements VentaServiceInterface {
@@ -50,17 +52,17 @@ public class VentaService implements VentaServiceInterface {
 
     @Override
     @Transactional(readOnly = true)
-    public List<VentaDTO> traerVentas() {
+    public List<VentaResponseDTO> traerVentas() {
         return ventaRepository.findAll(Sort.by(Sort.Direction.ASC, "idVenta"))
                 .stream()
-                .map(Mapper::toVentaDTO)
+                .map(Mapper::toVentaResponseDTO)
                 .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public VentaDTO buscarVenta(Long id) {
-        return Mapper.toVentaDTO(obtenerVenta(id));
+    public VentaResponseDTO buscarVenta(Long id) {
+        return Mapper.toVentaResponseDTO(obtenerVenta(id));
     }
 
     @Override
@@ -102,10 +104,11 @@ public class VentaService implements VentaServiceInterface {
         ventaRepository.delete(venta);
     }
 
+
     private void aplicarDatosVenta(Venta venta, VentaDTO dto) {
-        venta.setFechaVenta(dto.getFechaVenta() != null
-                ? dto.getFechaVenta()
-                : (venta.getFechaVenta() != null ? venta.getFechaVenta() : LocalDateTime.now()));
+        if (venta.getFechaVenta() == null) {
+            venta.setFechaVenta(LocalDateTime.now());
+        }
         venta.setEstadoVenta(dto.getEstadoVenta() != null ? dto.getEstadoVenta() : venta.getEstadoVenta());
         venta.setSucursal(dto.getIdSucursal() != null
                 ? obtenerSucursal(dto.getIdSucursal())
@@ -220,6 +223,7 @@ public class VentaService implements VentaServiceInterface {
         }
     }
 
+    /*
     private List<DetalleVenta> mapearDetalles(List<DetalleVentaDTO> detallesDTO, Venta venta) {
         if (detallesDTO == null) {
             return new ArrayList<>();
@@ -233,6 +237,48 @@ public class VentaService implements VentaServiceInterface {
             detalles.add(detalle);
         }
         return detalles;
+    }*/
+
+    private List<DetalleVenta> mapearDetalles(
+            List<DetalleVentaDTO> detallesDTO,
+            Venta venta) {
+
+        List<DetalleVenta> detalles = new ArrayList<>();
+
+        Map<Long, Integer> cantidades = agruparProductos(detallesDTO);
+
+        for (Map.Entry<Long, Integer> entry : cantidades.entrySet()) {
+
+            Producto producto = obtenerProducto(entry.getKey());
+
+            Integer cantidad = entry.getValue();
+
+            BigDecimal precio = producto.getPrecioProducto();
+
+            BigDecimal subtotal =
+                    precio.multiply(BigDecimal.valueOf(cantidad));
+
+            DetalleVenta detalle = DetalleVenta.builder()
+                    .producto(producto)
+                    .venta(venta)
+                    .cantidad(cantidad)
+                    .precioUnitario(precio)
+                    .subtotal(subtotal)
+                    .build();
+
+            detalles.add(detalle);
+        }
+
+        return detalles;
+    }
+
+    private Map<Long, Integer> agruparProductos(List<DetalleVentaDTO> detallesDTO) {
+        return detallesDTO.stream()
+                .collect(Collectors.toMap(
+                        DetalleVentaDTO::getIdProducto,
+                        DetalleVentaDTO::getCantidad,
+                        Integer::sum
+                ));
     }
 
     private Map<Long, Long> construirMapaCantidades(List<DetalleVenta> detalles) {

@@ -1,9 +1,6 @@
 package com.supermercado_spring.mapper;
 
-import com.supermercado_spring.dto.DetalleVentaDTO;
-import com.supermercado_spring.dto.ProductoDTO;
-import com.supermercado_spring.dto.SucursalDTO;
-import com.supermercado_spring.dto.VentaDTO;
+import com.supermercado_spring.dto.*;
 import com.supermercado_spring.model.DetalleVenta;
 import com.supermercado_spring.model.Producto;
 import com.supermercado_spring.model.Sucursal;
@@ -83,24 +80,24 @@ public class Mapper {
     }
 
 
-    //Map de Venta a VentaDTO
-    public static VentaDTO toVentaDTO(Venta v) {
+    //Map de Venta a VentaResponseDTO
+    public static VentaResponseDTO toVentaResponseDTO(Venta v) {
         if (v == null) {
             return null;
         }
 
-        List<DetalleVentaDTO> detallesDTO = v.getDetalle() == null
+        List<DetalleVentaResponseDTO> detallesDTO = v.getDetalle() == null
                 ? new ArrayList<>()
                 : v.getDetalle().stream()
-                .map(Mapper::toDetalleVentaDTO)
+                .map(Mapper::toDetalleVentaResponseDTO)
                 .toList();
 
         BigDecimal sumatoriaSubtotalDetallesDTO = detallesDTO.stream()
-                .map(DetalleVentaDTO::getSubtotal)
+                .map(DetalleVentaResponseDTO::getSubtotal)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        VentaDTO ventaDTO = VentaDTO.builder()
+        VentaResponseDTO ventaresponseDTO = VentaResponseDTO.builder()
                 .idVenta(v.getIdVenta())
                 .fechaVenta(v.getFechaVenta())
                 .estadoVenta(v.getEstadoVenta())
@@ -109,8 +106,17 @@ public class Mapper {
                 .total(sumatoriaSubtotalDetallesDTO)
                 .build();
 
-        return ventaDTO;
+        return ventaresponseDTO;
     }
+
+    private static BigDecimal calcularSubtotal(BigDecimal precioUnitario, Integer cantidad) {
+        if (precioUnitario == null || cantidad == null) {
+            return null;
+        }
+        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+    }
+
+
 
     //MAp de VentaDTO a Venta
     public static Venta toVenta(VentaDTO dto) {
@@ -131,7 +137,9 @@ public class Mapper {
 
         Venta venta = Venta.builder()
                 .idVenta(dto.getIdVenta())
-                .fechaVenta(dto.getFechaVenta())
+                //.fechaVenta(dto.getFechaVenta())  //En donde se use toVenta hacer esto:
+                    /* Venta venta = Mapper.toVenta(dto);
+                       venta.setFechaVenta(LocalDateTime.now());*/
                 .estadoVenta(dto.getEstadoVenta())
                 .sucursal(dto.getIdSucursal() != null
                         ? Sucursal.builder().idSucursal(dto.getIdSucursal()).build()
@@ -143,12 +151,6 @@ public class Mapper {
         return venta;
     }
 
-    private static BigDecimal calcularSubtotal(BigDecimal precioUnitario, Integer cantidad) {
-        if (precioUnitario == null || cantidad == null) {
-            return null;
-        }
-        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
-    }
 
 
     //Map de DetalleVenta a DetalleVentaDTO
@@ -158,15 +160,28 @@ public class Mapper {
         }
 
         DetalleVentaDTO detalleVentaDTO = DetalleVentaDTO.builder()
-                .idDetalleVenta(dv.getIdDetalleVenta())
                 .idProducto(dv.getProducto() != null ? dv.getProducto().getIdProducto() : null)
-                .nombreProducto(dv.getProducto() != null ? dv.getProducto().getNombreProducto() : null)
-                .precioUnitario(dv.getPrecioUnitario())
                 .cantidad(dv.getCantidad())
-                .subtotal(calcularSubtotal(dv.getPrecioUnitario(), dv.getCantidad()))
                 .build();
 
         return detalleVentaDTO;
+    }
+
+    public static DetalleVentaResponseDTO toDetalleVentaResponseDTO(DetalleVenta dv) {
+        if (dv == null) {
+            return null;
+        }
+
+        DetalleVentaResponseDTO detalleVentaResponseDTO = DetalleVentaResponseDTO.builder()
+                .idProducto(dv.getProducto() != null ? dv.getProducto().getIdProducto() : null)
+                .cantidad(dv.getCantidad())
+                .nombreProducto(dv.getProducto().getNombreProducto())
+                .idDetalleVenta(dv.getIdDetalleVenta())
+                .precioUnitario(dv.getPrecioUnitario())
+                .subtotal(dv.getSubtotal())
+                .build();
+
+        return detalleVentaResponseDTO;
     }
 
     public static DetalleVenta toDetalleVenta(DetalleVentaDTO dto) {
@@ -180,11 +195,8 @@ public class Mapper {
         }
 
         return DetalleVenta.builder()
-                .idDetalleVenta(dto.getIdDetalleVenta())
                 .producto(producto)
-                .precioUnitario(dto.getPrecioUnitario())
                 .cantidad(dto.getCantidad())
-                .subtotal(calcularSubtotal(dto.getPrecioUnitario(), dto.getCantidad()))
                 .build();
     }
 }

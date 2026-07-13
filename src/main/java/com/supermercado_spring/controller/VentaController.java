@@ -1,6 +1,7 @@
 package com.supermercado_spring.controller;
 
 import com.supermercado_spring.dto.VentaDTO;
+import com.supermercado_spring.dto.VentaResponseDTO;
 import com.supermercado_spring.service.interfaces.VentaServiceInterface;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -31,13 +32,13 @@ public class VentaController {
 
     //http://localhost:8080/ventas/
     @GetMapping
-    public ResponseEntity<List<VentaDTO>> traerVentas() {
+    public ResponseEntity<List<VentaResponseDTO>> traerVentas() {
         return ResponseEntity.ok(ventaService.traerVentas());
     }
 
     //http://localhost:8080/ventas/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<VentaDTO> buscarVenta(@PathVariable @Positive Long id) {
+    public ResponseEntity<VentaResponseDTO> buscarVenta(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(ventaService.buscarVenta(id));
     }
 
