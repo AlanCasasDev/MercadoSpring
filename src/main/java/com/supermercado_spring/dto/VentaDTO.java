@@ -5,22 +5,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
 public class VentaDTO {
 
-
-
-    /*
-    @PastOrPresent(message = "La fecha solo puede ser actual o del pasado (No se aceptan fechas futuras)")
-    private LocalDateTime fechaVenta;
-
-    @PositiveOrZero(message = "El total del a venta no puede ser negativo")
-    private BigDecimal total;
-    */
 
     //Datos de Venta
     //@Positive(message = "El id debe ser estrictamente positivo")
