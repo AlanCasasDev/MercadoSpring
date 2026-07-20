@@ -98,12 +98,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> manejarArgumentoInvalido(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("El argumento enviado no es válido.");
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> manejarConstraintViolation(ConstraintViolationException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Uno o más valores enviados no cumplen con las validaciones requeridas.");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
